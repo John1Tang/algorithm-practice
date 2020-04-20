@@ -1,4 +1,4 @@
-package com.jt.algo.practice;
+package com.jt.algo.practice.leetcode;
 
 import java.util.Arrays;
 import java.util.Comparator;

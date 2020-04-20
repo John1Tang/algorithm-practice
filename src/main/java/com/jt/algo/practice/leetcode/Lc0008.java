@@ -1,4 +1,4 @@
-package com.jt.algo.practice;
+package com.jt.algo.practice.leetcode;
 
 /**
  * 8. String to Integer (atoi)

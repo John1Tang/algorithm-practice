@@ -1,4 +1,4 @@
-package com.jt.algo.practice;
+package com.jt.algo.practice.leetcode;
 
 /**
  * 542. 01 Matrix
