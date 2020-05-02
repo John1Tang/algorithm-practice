@@ -27,6 +27,9 @@ import java.util.Map;
 public class Lc0003 {
     public int lengthOfLongestSubstring(String s) {
         int len = s.length(), result = 0;
+        if (len == 0) {
+            return 0;
+        }
         Map<Character, Integer> charIdxMap = new HashMap<>();
         for(int start = 0, end = 0; end < len; end++){
             char curChar = s.charAt(end);
