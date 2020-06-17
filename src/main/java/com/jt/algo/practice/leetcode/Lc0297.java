@@ -52,7 +52,7 @@ public class Lc0297 {
             return null;
         }
 
-        TreeNode root = new TreeNode(Integer.valueOf(l.get(0)));
+        TreeNode root = new TreeNode(Integer.parseInt(l.get(0)));
         l.remove(0);
         root.left = rdeserialize(l);
         root.right = rdeserialize(l);
