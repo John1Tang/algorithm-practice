@@ -37,7 +37,7 @@ package com.jt.algo.practice.leetcode;
  */
 public class Lc0392 {
 
-    public boolean isSubsequence(String s, String t) {
+    public static boolean isSubsequence(String s, String t) {
         int n = s.length(), m = t.length();
 
         int[][] f = new int[m + 1][26];
@@ -64,5 +64,9 @@ public class Lc0392 {
         }
 
         return true;
+    }
+
+    public static void main(String[] args) {
+        isSubsequence("abc", "ahbgdc");
     }
 }
