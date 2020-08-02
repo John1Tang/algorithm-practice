@@ -1,6 +1,8 @@
 package com.jt.algo.practice.leetcode;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * @description: 785. Is Graph Bipartite?
@@ -44,39 +46,35 @@ import java.util.Arrays;
  *
  *
  */
-public class Lc0785 {
+public class Lc0785Bfs {
     private static final int UNCOLORED = 0;
     private static final int RED = 1;
     private static final int GREEN = 2;
     private int[] color;
-    private boolean valid;
 
-    public boolean isBipartite(int[][] graph){
+    public boolean isBipartite(int[][] graph) {
         int n = graph.length;
-        valid = true;
         color = new int[n];
         Arrays.fill(color, UNCOLORED);
-        for(int i = 0; i < n && valid; ++i){
-            if(color[i] == UNCOLORED){
-                dfs(i, RED, graph);
-            }
-        }
-        return valid;
-    }
-
-    public void dfs(int node, int c, int[][] graph){
-        color[node] = c;
-        int cNei = c == RED ? GREEN : RED;
-        for(int neighbor : graph[node]){
-            if(color[neighbor] == UNCOLORED){
-                dfs(neighbor, cNei, graph);
-                if(!valid){
-                    return;
+        for (int i = 0; i < n; ++i) {
+            if (color[i] == UNCOLORED) {
+                Queue<Integer> queue = new LinkedList<Integer>();
+                queue.offer(i);
+                color[i] = RED;
+                while (!queue.isEmpty()) {
+                    int node = queue.poll();
+                    int cNei = color[node] == RED ? GREEN : RED;
+                    for (int neighbor : graph[node]) {
+                        if (color[neighbor] == UNCOLORED) {
+                            queue.offer(neighbor);
+                            color[neighbor] = cNei;
+                        } else if (color[neighbor] != cNei) {
+                            return false;
+                        }
+                    }
                 }
-            }else if(color[neighbor] != cNei){
-                valid = false;
-                return;
             }
         }
+        return true;
     }
 }
