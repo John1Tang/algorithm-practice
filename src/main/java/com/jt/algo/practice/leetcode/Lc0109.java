@@ -67,7 +67,9 @@ public class Lc0109 {
         return root;
     }
 
-    // Definition for singly-linked list.
+    /**
+     * Definition for singly-linked list.
+      */
     public class ListNode {
         int val;
         ListNode next;
@@ -85,7 +87,9 @@ public class Lc0109 {
         }
     }
 
-    // Definition for a binary tree node.
+    /**
+     * Definition for a binary tree node.
+     */
     public class TreeNode {
         int val;
         TreeNode left;
