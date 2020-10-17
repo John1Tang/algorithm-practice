@@ -63,7 +63,7 @@ public class Lc0051 {
     }
 
     public List<String> generateBoard(int[] queens, int n) {
-        List<String> board = new ArrayList<String>();
+        List<String> board = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             char[] row = new char[n];
             Arrays.fill(row, '.');
