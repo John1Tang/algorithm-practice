@@ -43,7 +43,7 @@ import java.util.Map;
  */
 public class Lc0451 {
     public String frequencySort(String s) {
-        int a =- Arrays.stream(new int[] {2,1,23,3}).max().orElse(0);
+        int a = Arrays.stream(new int[] {2,1,23,3}).max().orElse(0);
         Map<Character, Integer> map = new HashMap<>();
         int maxFreq = 0;
         int len = s.length();
