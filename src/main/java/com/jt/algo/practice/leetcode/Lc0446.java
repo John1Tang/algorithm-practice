@@ -1,67 +1,90 @@
 package com.jt.algo.practice.leetcode;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
- * @description: leetcode 446
+ * @description: 446. Arithmetic Slices II - Subsequence
  * @author: john
- * @created: 2020/04/19 18:25
+ * @created: 2021/08/12 23:21
  *
- * 466. Count The Repetitions
- * Define S = [s,n] as the string S which consists of n connected strings s. For example, ["abc", 3] ="abcabcabc".
+ * Given an integer array nums, return the number of all the arithmetic subsequences of nums.
  *
- * On the other hand, we define that string s1 can be obtained from string s2 if we can remove some characters from s2 such that it becomes s1. For example, “abc” can be obtained from “abdbec” based on our definition, but it can not be obtained from “acbbe”.
+ * A sequence of numbers is called arithmetic if it consists of at least three elements and if the difference between any two consecutive elements is the same.
  *
- * You are given two non-empty strings s1 and s2 (each at most 100 characters long) and two integers 0 ≤ n1 ≤ 106 and 1 ≤ n2 ≤ 106. Now consider the strings S1 and S2, where S1=[s1,n1] and S2=[s2,n2]. Find the maximum integer M such that [S2,M] can be obtained from S1.
+ * For example, [1, 3, 5, 7, 9], [7, 7, 7, 7], and [3, -1, -5, -9] are arithmetic sequences.
+ * For example, [1, 1, 2, 5, 7] is not an arithmetic sequence.
+ * A subsequence of an array is a sequence that can be formed by removing some elements (possibly none) of the array.
  *
- * Example:
+ * For example, [2,5,10] is a subsequence of [1,2,1,2,4,1,5,10].
+ * The answer is guaranteed to fit in 32-bit integer.
  *
- * Input:
- * s1="acb", n1=4
- * s2="ab", n2=2
+ *  
  *
- * Return:
- * 2
+ * Example 1:
+ *
+ * Input: nums = [2,4,6,8,10]
+ * Output: 7
+ * Explanation: All arithmetic subsequence slices are:
+ * [2,4,6]
+ * [4,6,8]
+ * [6,8,10]
+ * [2,4,6,8]
+ * [4,6,8,10]
+ * [2,4,6,8,10]
+ * [2,6,10]
+ * Example 2:
+ *
+ * Input: nums = [7,7,7,7,7]
+ * Output: 16
+ * Explanation: Any subsequence of this array is arithmetic.
+ *  
+ *
+ * Constraints:
+ *
+ * 1  <= nums.length <= 1000
+ * -231 <= nums[i] <= 231 - 1
+ *
+ *
  */
 public class Lc0446 {
-
-    public int getMaxRepetitions(String s1, int n1, String s2, int n2) {
-        int index = 0;
-        int count = 0;
-        if(n1 == 0 || n2 == 0){
+    public int numberOfArithmeticSlices(int[] nums) {
+        int n = nums.length;
+        if (n < 3) {
             return 0;
         }
-        int len1 = s1.length();
-        int len2 = s2.length();
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            List<Integer> list = map.getOrDefault(nums[i], new ArrayList<>());
+            list.add(i);
+            map.put(nums[i], list);
+        }
 
-        char[] arr1 = s1.toCharArray();
-        char[] arr2 = s2.toCharArray();
+        int ans = 0;
 
-        int[] recordCount = new int[n1];
-        int[] recordIndex = new int[n1];
-
-        for(int i = 0; i < n1; ++i){
-            for(int j =0; j < len1; ++j){
-                if(arr1[j] == arr2[index]){
-                    ++index;
+        int[][] dp = new int[n][n];
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                // nums[k] ~ nums[i] - nums[j] = nums[j] - nums[k]
+                // =====>  nums[k] = 2 * nums[j] - nums[i]
+                long numsK = 2L * nums[j] - nums[i];
+                if (numsK > Integer.MAX_VALUE || numsK < Integer.MIN_VALUE) {
+                    continue;
                 }
-                if(index == len2){
-                    index = 0;
-                    ++count;
+                // k fits in triple
+                if (map.containsKey((int)numsK)) {
+                    List<Integer> list = map.get((int) numsK);
+                    for (Integer k : list) {
+                        if (k < j) {
+                            dp[j][i] += dp[k][j] + 1;
+                        }
+                    }
                 }
-            }
-            recordCount[i] = count;
-            recordIndex[i] = index;
-
-            for(int j = 0; j < i; ++j){
-                if(recordIndex[j] == index){
-                    int before = recordCount[j];
-                    int between = count - recordCount[j];
-                    int num = (n1 - 1 - j)/(i - j);
-                    int betweenAll = num * between;
-                    int after = recordCount[j+(n1 - 1 - j) % (i - j)] -before;
-                    return (before + betweenAll + after) / n2;
-                }
+                ans += dp[j][i];
             }
         }
-        return recordCount[n1 - 1]/n2;
+        return ans;
     }
 }
