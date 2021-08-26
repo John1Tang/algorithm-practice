@@ -1,6 +1,5 @@
 package com.jt.algo.practice.leetcode;
 
-import netscape.javascript.JSObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
